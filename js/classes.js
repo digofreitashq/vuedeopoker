@@ -55,9 +55,9 @@ class Hand {
         if (!deck) return;
         this.cards = [];
         this.hold = [];
-        this.drawCards();
+        this.drawCards(deck);
     }
-    drawCards() {
+    drawCards(deck) {
         Array.from({ length: MAX_HAND }, (x, i) => {
             this.addCard(deck.pickCard());
         });
@@ -235,6 +235,27 @@ class Dealer {
             new Card(HEARTS, FOUR),
             new Card(DIAMONDS, FIVE),
             new Card(SPADES, SIX),
+        ];
+        this.threeOfAKindTestHand = [
+            new Card(HEARTS, THREE),
+            new Card(SPADES, THREE),
+            new Card(SPADES, FOUR),
+            new Card(DIAMONDS, KING),
+            new Card(CLUBS, THREE),
+        ];
+        this.twoPairTestHand = [
+            new Card(HEARTS, ACE),
+            new Card(DIAMONDS, ACE),
+            new Card(SPADES, FOUR),
+            new Card(DIAMONDS, KING),
+            new Card(CLUBS, KING),
+        ];
+        this.jacksOrBetterTestHand = [
+            new Card(HEARTS, ACE),
+            new Card(DIAMONDS, FOUR),
+            new Card(SPADES, FOUR),
+            new Card(DIAMONDS, KING),
+            new Card(CLUBS, ACE),
         ];
     }
     pay(hand, bet) {
