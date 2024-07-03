@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="Digo Freitas">
+<title>VueDeo Poker - An Vue.js Study Project</title>
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/game.css" rel="stylesheet">
+</head>
+<body>
+<main role="main" class="container">
+
+    <div id="app">
+        <game-sound
+            v-for="sound in sound_list"
+            :sound="sound[0]"
+            :loop="sound[1]"
+        ></game-sound>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12 green-border text-center title">
+                        ♦♥ V U E D E O  P O K E R ♣♠
+                    </div>
+                    <div class="col-md-12 green-border">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                            <td>
+                            <p style="text-align: center"><b>Hand</b></p>
+                            </td>
+                            <td style="text-align: center"><b>1 Coin</b></td>
+                            <td style="text-align: center"><b>2 Coins</b></td>
+                            <td style="text-align: center"><b>3 Coins</b></td>
+                            <td style="text-align: center"><b>4 Coins</b></td>
+                            <td style="text-align: center"><b>5 Coins</b></td>
+                            </tr>
+                            <tr>
+                            <td>Royal Flush</td>
+                            <td style="text-align: center"><span style="font-weight: 400">250</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">500</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">750</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">1,000</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">4,000</span></td>
+                            </tr>
+                            <tr>
+                            <td>Straight Flush</td>
+                            <td style="text-align: center"><span style="font-weight: 400">50</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">100</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">150</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">200</span></td>
+                            <td style="text-align: center">250</td>
+                            </tr>
+                            <tr>
+                            <td><span style="font-weight: 400">Four of a Kind</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">25</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">50</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">75</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">100</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">125</span></td>
+                            </tr>
+                            <tr>
+                            <td style="text-align: left"><span style="font-weight: 400">Full House</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">9</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">18</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">27</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">36</span></td>
+                            <td style="text-align: center">45</td>
+                            </tr>
+                            <tr>
+                            <td><span style="font-weight: 400">Flush</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">6</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">12</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">18</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">24</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">30</span></td>
+                            </tr>
+                            <tr>
+                            <td style="text-align: left"><span style="font-weight: 400">Straight</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">4</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">8</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">12</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">16</span></td>
+                            <td style="text-align: center">20</td>
+                            </tr>
+                            <tr>
+                            <td><span style="font-weight: 400">Three of a Kind</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">3</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">6</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">9</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">12</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">15</span></td>
+                            </tr>
+                            <tr>
+                            <td style="text-align: left"><span style="font-weight: 400">Two Pair</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">2</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">4</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">6</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">8</span></td>
+                            <td style="text-align: center">10</td>
+                            </tr>
+                            <tr>
+                            <td style="text-align: left"><span style="font-weight: 400">Jacks or Better</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">1</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">2</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">3</span></td>
+                            <td style="text-align: center"><span style="font-weight: 400">4</span></td>
+                            <td style="text-align: center">5</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 green-border">
+                        COINS: {{coins}} BET: {{bet}}
+                    </div>
+                </div>
+                <div class="row" v-if="hand">
+                    <div class="col-md-12 green-border">
+                        <div class="row">
+                            <div class="col-md-6 no-select text-center">
+                                <div class="poker-card" :class="{'is-hold': isHold(ix)}" @click="toggleHoldCard(ix)" v-for="(card, ix) in hand.cards" :key="ix">
+                                <p><span v-if="isHold(ix)" class="text-center">HOLD</span></p>
+                                <p>╔═════╗</p>
+                                <p>║{{card.valueSimple()}}&nbsp;&nbsp;&nbsp;<template v-if="card.value!=10">&nbsp;</template>║</p>
+                                <p>║{{card.suitIcon()}}&nbsp;&nbsp;&nbsp;&nbsp;║</p>
+                                <p v-if="isHold(ix)">║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;║</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 text-center">
+                                    <template v-if="result != ''">
+                                        <strong>{{result}}</strong>
+                                    </template>
+                                    <template v-else>
+                                        MAKE YOUR BET
+                                    </template>
+                                </div>
+                                <div class="row" v-if="coins > 0 || result == ''">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-default btn-block" @click="upBet" :disabled="fullBet || result != ''">BET</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-default btn-block" @click="maxBet" :disabled="fullBet || result != ''">MAX BET</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-default btn-block" :class="{'blinking': fullBet || result != ''}" @click="dealDraw">DEAL+DRAW</button>
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col-md-12 text-center">
+                                        <div class="btn btn-default btn-block" @click="restart">♦♥ G A M E  O V E R ♣♠</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+</main><!-- /.container -->
+
+<script src="./js/jquery.slim.min.js"></script>
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script src="./js/vue@2.js"></script>
+<script src="./js/constants.js"></script>
+<script src="./js/classes.js"></script>
+<script src="./js/game.js"></script>
+</body>
+</html>
