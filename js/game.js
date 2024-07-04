@@ -32,7 +32,7 @@ var app = new Vue({
         deck: null,
 
         // Game Result
-        result: "",
+        result: '',
 
         // Game Control
         sound_list: [
@@ -111,12 +111,12 @@ var app = new Vue({
             return this.bet == MAX_BET || this.coins == 0;
         },
         gameover() {
-            return this.coins <= 0 && this.result != '';
+            return !(this.coins > 0 || this.result == '');
         }
     },
     methods: {
         upBet() {
-            if (this.bet < MAX_BET && this.coins > 0) {
+            if (this.result == '' && this.bet < MAX_BET && this.coins > 0) {
                 sounds['bet'].play();
                 this.coins--;
                 this.bet++;
@@ -128,7 +128,7 @@ var app = new Vue({
         },
         maxBet() {
             let possible_bet = Math.min(this.coins, (MAX_BET-this.bet));
-            if (possible_bet > 0) {
+            if (this.result == '' && possible_bet > 0) {
                 sounds['maxBet'].play();
                 this.coins -= possible_bet;
                 this.bet += possible_bet;
@@ -139,7 +139,7 @@ var app = new Vue({
             }
         },
         dealDraw() {
-            if (!this.result) {
+            if (this.result == '') {
                 this.hand.dealDraw(this.deck);
                 let payed = this.dealer.pay(this.hand, this.bet);
 
@@ -158,7 +158,7 @@ var app = new Vue({
                 this.coins -= this.bet;
                 this.deck.init();
                 this.hand.init(this.deck);
-                this.result = "";
+                this.result = '';
             }
         },
         toggleHoldCard(index) {
@@ -178,7 +178,7 @@ var app = new Vue({
 
             this.bet = INITIAL_BET;
             this.coins = INITIAL_COINS - this.bet;
-            this.result = "";
+            this.result = '';
         }
     }
 });
