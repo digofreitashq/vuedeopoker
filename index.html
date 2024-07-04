@@ -140,7 +140,7 @@
                                         MAKE YOUR BET
                                     </template>
                                 </div>
-                                <div class="row" v-if="coins > 0 || result == ''">
+                                <div class="row" v-if="!gameover">
                                     <div class="col-md-4">
                                         <button class="btn btn-default btn-block" @click="upBet" :disabled="fullBet || result != ''">BET</button>
                                     </div>
@@ -172,6 +172,7 @@
 <script src="./js/jquery.slim.min.js"></script>
 <script src="./js/bootstrap.bundle.min.js"></script>
 <script src="./js/vue@2.js"></script>
+<script src="./js/keyboard.min.js"></script>
 <script src="./js/constants.js"></script>
 <script src="./js/classes.js"></script>
 <script src="./js/game.js"></script>

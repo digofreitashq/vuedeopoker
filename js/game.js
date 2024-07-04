@@ -73,10 +73,45 @@ var app = new Vue({
         
         // Reset variables
         this.restart();
+
+        // Keyboard Binding
+        ['1','2','3','4','5'].forEach((key, index) => {
+            keyboardJS.bind(key, (e) => {
+                this.toggleHoldCard(index);
+            });
+        });
+
+        ['num1','num2','num3','num4','num5'].forEach((key, index) => {
+            keyboardJS.bind(key, (e) => {
+                this.toggleHoldCard(index);
+            });
+        });
+
+        ['up','plus','numadd'].forEach((key) => {
+            keyboardJS.bind(key, (e) => {
+                this.upBet();
+            });
+        });
+
+        ['comma','period','0','numdecimal','numzero'].forEach((key) => {
+            keyboardJS.bind(key, (e) => {
+                this.maxBet();
+            });
+        });
+
+        ['enter','space','numenter'].forEach((key) => {
+            keyboardJS.bind(key, (e) => {
+                if (!this.gameover) this.dealDraw();
+                else this.restart();
+            });
+        });
     },
     computed: {
         fullBet() {
             return this.bet == MAX_BET || this.coins == 0;
+        },
+        gameover() {
+            return this.coins <= 0 && this.result != '';
         }
     },
     methods: {
