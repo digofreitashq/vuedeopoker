@@ -114,11 +114,13 @@ var app = new Vue({
                     sounds['nothing'].play();
                 }
 
-                this.coins += (payed[0] - this.bet);
+                this.coins += payed[0];
+                this.bet = 0;
                 this.result = payed[1];
             } else {
                 sounds['draw'].play();
                 this.bet = INITIAL_BET;
+                this.coins -= this.bet;
                 this.deck.init();
                 this.hand.init(this.deck);
                 this.result = "";
@@ -139,8 +141,8 @@ var app = new Vue({
             this.deck.init();
             this.hand.init(this.deck);
 
-            this.coins = INITIAL_COINS;
             this.bet = INITIAL_BET;
+            this.coins = INITIAL_COINS - this.bet;
             this.result = "";
         }
     }

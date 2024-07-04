@@ -82,7 +82,7 @@ class Hand {
         deck.init();
     }
     sortedCards() {
-        return this.cards.slice(0).sort((a,b) => b.value-a.value);
+        return this.cards.slice(0).sort((a,b) => a.value-b.value);
     }
     has(card) {
         return this.cards.some(
@@ -146,22 +146,32 @@ class Hand {
     }
     isStraight() {
         let sortedCards = this.sortedCards();
-        let minCardValue = sortedCards[0].value;
+        let validStraight = false;
 
-        let validStraight = (
-            sortedCards[0].value == (minCardValue + 0) &&
-            sortedCards[1].value == (minCardValue + 1) &&
-            sortedCards[2].value == (minCardValue + 2) &&
-            sortedCards[3].value == (minCardValue + 3)
-        );
-
-        if (!validStraight) return false;
-
-        if (minCardValue == 10) {
-            return sortedCards[4].value == ACE;
+        if (sortedCards[0].value == ACE && sortedCards[1].value == TWO) {
+            validStraight = (
+                sortedCards[2].value == THREE &&
+                sortedCards[3].value == FOUR &&
+                sortedCards[4].value == FIVE
+            );
+        } else if (sortedCards[0].value == ACE && sortedCards[4].value == KING) {
+            validStraight = (
+                sortedCards[1].value == TEN &&
+                sortedCards[2].value == JACK &&
+                sortedCards[3].value == QUEEN
+            );
         } else {
-            return sortedCards[4].value == (minCardValue + 4);
+            let minCardValue = sortedCards[0].value;
+            validStraight = (
+                sortedCards[0].value == (minCardValue + 0) &&
+                sortedCards[1].value == (minCardValue + 1) &&
+                sortedCards[2].value == (minCardValue + 2) &&
+                sortedCards[3].value == (minCardValue + 3) &&
+                sortedCards[4].value == (minCardValue + 4)
+            );
         }
+
+        return validStraight;
     }
     log() {
         this.cards.forEach((card) => {
@@ -178,84 +188,84 @@ class Dealer {
             new Card(DIAMONDS, JACK),
             new Card(DIAMONDS, QUEEN),
             new Card(DIAMONDS, KING),
-            new Card(DIAMONDS, ACE),
+            new Card(DIAMONDS, ACE)
         ];
         this.straightFlushTestHand1 = [
             new Card(HEARTS, TEN),
             new Card(HEARTS, JACK),
             new Card(HEARTS, QUEEN),
             new Card(HEARTS, KING),
-            new Card(HEARTS, ACE),
+            new Card(HEARTS, ACE)
         ];
         this.straightFlushTestHand2 = [
             new Card(SPADES, TWO),
             new Card(SPADES, THREE),
             new Card(SPADES, FOUR),
             new Card(SPADES, FIVE),
-            new Card(SPADES, SIX),
+            new Card(SPADES, SIX)
         ];
         this.fourOfAKindTestHand = [
             new Card(SPADES, FOUR),
             new Card(HEARTS, FOUR),
             new Card(DIAMONDS, FOUR),
             new Card(SPADES, KING),
-            new Card(CLUBS, FOUR),
+            new Card(CLUBS, FOUR)
         ];
         this.fullHouseTestHand = [
             new Card(SPADES, FOUR),
             new Card(HEARTS, FOUR),
             new Card(DIAMONDS, KING),
             new Card(SPADES, KING),
-            new Card(CLUBS, KING),
+            new Card(CLUBS, KING)
         ];
         this.flushTestHand = [
             new Card(CLUBS, TWO),
             new Card(CLUBS, FOUR),
             new Card(CLUBS, FIVE),
             new Card(CLUBS, SIX),
-            new Card(CLUBS, EIGHT),
+            new Card(CLUBS, EIGHT)
         ];
         this.straightTestHand1 = [
-            new Card(SPADES, FOUR),
-            new Card(HEARTS, FIVE),
-            new Card(DIAMONDS, SIX),
             new Card(SPADES, SEVEN),
             new Card(CLUBS, EIGHT),
+            new Card(SPADES, FOUR),
+            new Card(DIAMONDS, SIX),
+            new Card(HEARTS, FIVE)
         ];
         this.straightTestHand2 = [
+            new Card(DIAMONDS, ACE),
+            new Card(HEARTS, QUEEN),
             new Card(CLUBS, TEN),
             new Card(DIAMONDS, JACK),
-            new Card(HEARTS, QUEEN),
-            new Card(SPADES, KING),
-            new Card(DIAMONDS, ACE),
+            new Card(SPADES, KING)
         ];
         this.straightTestHand3 = [
             new Card(HEARTS, ACE),
             new Card(DIAMONDS, TWO),
             new Card(HEARTS, FOUR),
             new Card(DIAMONDS, FIVE),
-            new Card(SPADES, SIX),
+            new Card(SPADES, SIX)
         ];
         this.threeOfAKindTestHand = [
             new Card(HEARTS, THREE),
             new Card(SPADES, THREE),
             new Card(SPADES, FOUR),
             new Card(DIAMONDS, KING),
-            new Card(CLUBS, THREE),
+            new Card(CLUBS, THREE)
         ];
         this.twoPairTestHand = [
             new Card(HEARTS, ACE),
             new Card(DIAMONDS, ACE),
             new Card(SPADES, FOUR),
             new Card(DIAMONDS, KING),
-            new Card(CLUBS, KING),
+            new Card(CLUBS, KING)
         ];
         this.jacksOrBetterTestHand = [
             new Card(HEARTS, ACE),
             new Card(DIAMONDS, FOUR),
             new Card(SPADES, FOUR),
             new Card(DIAMONDS, KING),
-            new Card(CLUBS, ACE),
+            new Card(CLUBS, ACE)
         ];
     }
     pay(hand, bet) {
