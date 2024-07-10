@@ -15,6 +15,10 @@ function convertToObj(a, b) {
   return obj;
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 // Suits
 const DIAMONDS = 0;
 const CLUBS = 1;

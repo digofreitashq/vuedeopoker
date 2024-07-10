@@ -45,6 +45,7 @@ var app = new Vue({
             ['nothing', false],
             ['prize', false],
             ['restart', false],
+            ['gameover', false],
         ]
     },
     mounted: function () {
@@ -53,6 +54,8 @@ var app = new Vue({
             sounds[sound_name[0]] = document.getElementById(
                 'sound_'+sound_name[0]
             );
+
+            sounds[sound_name[0]].volume = 0.5;
 
             if (sound_name[0] == "theme") {
                 sounds[sound_name[0]].volume = 0.2;
@@ -108,54 +111,61 @@ var app = new Vue({
     },
     computed: {
         fullBet() {
-            return this.bet == MAX_BET || this.coins == 0;
+            return this.bet >= MAX_BET || this.coins <= 0;
         },
         gameover() {
-            return !(this.coins > 0 || this.result == '');
+            return this.coins <= 0 && this.bet <= 0 && this.result == '';
         }
     },
     methods: {
         upBet() {
-            if (this.result == '' && this.bet < MAX_BET && this.coins > 0) {
-                sounds['bet'].play();
-                this.coins--;
-                this.bet++;
-            } else {
+            if (this.fullBet) {
                 sounds['denied'].pause();
                 sounds['denied'].currentTime = 0;
                 sounds['denied'].play();
+            } else {
+                sounds['bet'].pause();
+                sounds['bet'].currentTime = 0;
+                sounds['bet'].play();
+                this.coins = Math.max(0, this.coins-1);
+                this.bet = Math.min(MAX_BET, (this.bet+1));
             }
         },
         maxBet() {
-            let possible_bet = Math.min(this.coins, (MAX_BET-this.bet));
-            if (this.result == '' && possible_bet > 0) {
-                sounds['maxBet'].play();
-                this.coins -= possible_bet;
-                this.bet += possible_bet;
-            } else {
+            if (this.fullBet) {
                 sounds['denied'].pause();
                 sounds['denied'].currentTime = 0;
                 sounds['denied'].play();
+            } else {
+                let possible_bet = Math.min(this.coins, (MAX_BET-this.bet));
+                sounds['maxBet'].play();
+                this.coins = Math.max(0, this.coins-possible_bet);
+                this.bet = Math.min(MAX_BET, (this.bet+possible_bet));
             }
         },
         dealDraw() {
             if (this.result == '') {
                 this.hand.dealDraw(this.deck);
-                let payed = this.dealer.pay(this.hand, this.bet);
+                let payment = this.dealer.pay(this.hand, this.bet);
 
-                if (payed[0] > 0) {
+                if (payment[0] > 0) {
                     sounds['prize'].play();
                 } else {
                     sounds['nothing'].play();
                 }
 
-                this.coins += payed[0];
+                this.coins += payment[0];
                 this.bet = 0;
-                this.result = payed[1];
+                this.result = payment[1];
             } else {
-                sounds['draw'].play();
-                this.bet = INITIAL_BET;
-                this.coins -= this.bet;
+                this.bet = 0;
+                if (this.coins > 0) {
+                    this.coins -= INITIAL_BET;
+                    this.bet += INITIAL_BET;
+                    sounds['draw'].play();
+                } else {
+                    sounds['gameover'].play();
+                }
                 this.deck.init();
                 this.hand.init(this.deck);
                 this.result = '';

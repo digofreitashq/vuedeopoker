@@ -133,11 +133,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-12 text-center">
-                                    <template v-if="result != ''">
-                                        <strong>{{result}}</strong>
+                                    <template v-if="gameover">
+                                        YOU LOSE!
                                     </template>
-                                    <template v-else>
-                                        MAKE YOUR BET
+                                    <template v-if="!gameover && fullBet && result == ''">
+                                        FEELING CONFIDENT, UH? LET'S DEAL!
+                                    </template>
+                                    <template v-if="!gameover && !fullBet && result == ''">
+                                        PLEASE SELECT THE CARDS YOU WANT TO HOLD
+                                    </template>
+                                    <template v-if="!gameover && result != ''">
+                                        {{result}}
                                     </template>
                                 </div>
                                 <div class="row" v-if="!gameover">

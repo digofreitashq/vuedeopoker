@@ -182,6 +182,42 @@ class Hand {
 
 class Dealer {
     constructor() {
+        // Nothing phrases
+        this.nothing = [
+            'That was close! To nothing.',
+            'A pair...! Of nothing and anything.',
+            'Come on... You can do better than that.',
+            'No luck today, uh?',
+            'Try again! And again. And again...',
+            'Your average hand. Nothing!',
+            'Bad news: You lose. Good news: I win!',
+            'Maybe you should stop losing...',
+            'Is it bad luck or just a bad player?',
+            'Okay, do not cry. You lost again.',
+            'You can always try again.',
+            'The more you lose, the more you learn. Maybe.',
+            'Keep on trying. Someday you\'ll win.',
+            'Remember that day you won?',
+            'Oh no! Not again...',
+            'Nothing! Haha! Sorry, it\'s funny.',
+            'Wait, I\'ll call my mom to show the biggest loser I know...',
+            'Better hold better cards.',
+            'You really thought that was a good play?',
+            'Maybe... No, still a bad hand.',
+            'Losing just for fun!',
+            'Okay, I promise I\'ll ever joke on you again.',
+            'What about you give up?',
+            'What the hell you wanted to do?',
+            'Come on... COME ON!',
+            'The road is long for losers like you.',
+            'I could be more positive, but it\'s fun to watch you lose.',
+            'Did I lose? No, it was YOU!',
+            'Hey! Are you smelling that? I smell a loser right there.',
+            'No way. Not AGAIN.',
+            'Last warning. Can you win something?',
+            'That\'s it! Nothing.'
+        ]
+
         // Test Hands
         this.royalFlushTestHand = [
             new Card(DIAMONDS, TEN),
@@ -268,6 +304,9 @@ class Dealer {
             new Card(CLUBS, ACE)
         ];
     }
+    randomNothing() {
+        return this.nothing[getRandomInt(this.nothing.length)];
+    }
     pay(hand, bet) {
         let indexBet = bet - 1;
         if (this.royalFlush(hand)) return [BONUS_MULTIPLIERS.ROYAL_FLUSH[indexBet], handDesc[ROYAL_FLUSH]];
@@ -279,7 +318,7 @@ class Dealer {
         if (this.threeOfAKind(hand)) return [BONUS_MULTIPLIERS.THREE_OF_A_KIND[indexBet], handDesc[THREE_OF_A_KIND]];
         if (this.twoPair(hand)) return [BONUS_MULTIPLIERS.TWO_PAIR[indexBet], handDesc[TWO_PAIR]];
         if (this.jacksOrBetter(hand)) return [BONUS_MULTIPLIERS.JACKS_OR_BETTER[indexBet], handDesc[JACKS_OR_BETTER]];
-        return [0, 'Nothing'];
+        return [0, this.randomNothing()];
     }
     royalFlush(hand) {
         return (
