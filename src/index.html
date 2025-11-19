@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="Digo Freitas" />
+    <title>CQNS!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./css/game.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main role="main" class="container">
+      <div id="app">
+        <game-sound
+          v-for="sound in sound_list"
+          :sound="sound"
+          :loop="false"
+        ></game-sound>
+        <game-sound sound="cqns-theme" :loop="true"></game-sound>
+        <div class="header">CQNS!</div>
+        <div class="body">
+          <div v-if="gameEnded">
+            <span class="gameover">GAME OVER</span>
+          </div>
+          <div v-else>
+            <div class="timer-bar" v-trim>
+              <span v-if="!ticksLeft.length">.</span>
+              <span v-for="(item, ix) in ticksLeft" :key="`tick_${ix}`" v-trim>
+                .
+              </span>
+            </div>
+
+            <span
+              class="current-number"
+              letter-animation="pulse"
+              :style="{'--speed': `${animationSpeed}ms`}"
+              >{{ currentNumber }}</span
+            >
+            <div class="progress-bar">
+              <span v-for="(item, ix) in list" :key="`item_${ix}`">
+                <span v-if="ix < guessed">{{ item }}</span>
+                <span v-else>_</span>
+                <span v-if="ix < list.length - 1">&nbsp;</span>
+              </span>
+            </div>
+            <div class="numeric-keypad">
+              <button
+                v-for="num in [2,3,4,5,6,7,8,9,10]"
+                :key="num"
+                @click="onKeyPress((num - 1) % 10)"
+                class="keypad-button"
+              >
+                {{ (num - 1) % 10 }}
+              </button>
+              <button
+                @click="onKeyPress(0)"
+                class="keypad-button keypad-button-zero"
+              >
+                0
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="./js/vue@2.js"></script>
+    <script src="./js/keyboard.min.js"></script>
+    <script src="./js/game.js"></script>
+  </body>
+</html>

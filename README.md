@@ -1,10 +1,9 @@
 # README
-VUEDEO POKER - An Vue.js Study Project
 
-Video Poker based game, developed with Vue.js.
+CQNS!
 
-Control with mouse.
+Game to test the longest number sequence you can memorize.
 
-Good luck!
+Developed with Vue.js.
 
-All rights, logos and images belong to his creators. 
+All rights, logos and images belong to its creators.
