@@ -41,8 +41,14 @@ let app = new Vue({
     timeLeft: 0,
     // Tick Left
     ticksLeft: [],
+    // Score history
+    scoreHistory: [],
+    // Score initials
+    scoreInitials: [],
   },
   mounted: function () {
+    let self = this;
+
     // Init sounds
     this.sound_list.forEach(function (sound_name) {
       const el = document.getElementById("sound_" + sound_name);
@@ -85,13 +91,18 @@ let app = new Vue({
         this.onKeyPress(index);
       });
     });
-    ["enter", "space", "numenter"].forEach((key) => {
-      keyboardJS.bind(key, (e) => {
-        if (!this.gameStarted || this.gameEnded) {
-          if (this._gameOverTimer) clearTimeout(this._gameOverTimer);
-          this.restart();
-        }
-      });
+
+    // Score initials
+    document.addEventListener("keydown", function (event) {
+      if (!self.gameEnded) return;
+      if (event.key == "Backspace") {
+        self.scoreInitials.pop();
+      } else if (event.key == "Enter") {
+        self.putScoreInitials();
+      } else {
+        if (self.scoreInitials.length < 4 && /^[a-zA-Z]$/.test(event.key))
+          self.scoreInitials.push(event.key.toUpperCase());
+      }
     });
 
     // Init timer
@@ -105,6 +116,19 @@ let app = new Vue({
       // Pulse speed
       return 1200; //this.timeLeft / 10;
     },
+    finalScore() {
+      const score = this.list.length - 1;
+      return Math.max(0, score);
+    },
+    scoreInitialsComputed() {
+      if (this.scoreInitials.length >= 4) return this.scoreInitials;
+      let response = [...this.scoreInitials];
+      while (response.length < 4) response.push("_");
+      return response.splice(0, 4);
+    },
+    scoreHistoryComputed() {
+      return this.scoreHistory.sort((a, b) => a.points > b.points);
+    },
   },
   watch: {
     gameEnded(n) {
@@ -116,7 +140,6 @@ let app = new Vue({
     gameover() {
       // Show Game Over
       this.gameEnded = true;
-      this._gameOverTimer = setTimeout(() => this.restart(), 2000);
     },
     restart() {
       // Restart game
@@ -173,6 +196,18 @@ let app = new Vue({
         this.ticksLeft = [];
         return;
       }
+    },
+    formatDate(date) {
+      return date.toLocaleDateString();
+    },
+    putScoreInitials() {
+      if (this.finalScore > 0)
+        this.scoreHistory.push({
+          player: this.scoreInitials.join(""),
+          points: this.finalScore,
+          datetime: new Date(),
+        });
+      this.restart();
     },
   },
 });

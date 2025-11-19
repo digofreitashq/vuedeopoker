@@ -30,6 +30,49 @@
         <div class="body">
           <div v-if="gameEnded">
             <span class="gameover">GAME OVER</span>
+
+            <p>You made {{finalScore}} points.</p>
+
+            <template v-if="finalScore > 1">
+            <p>Put your initials into the score:</p>
+            <span
+              class="current-number"
+              letter-animation="pulse"
+              :style="{'--speed': `${animationSpeed}ms`}"
+              v-for="(initial, ix) in scoreInitialsComputed"
+              :key="`${ix}_initial`"
+              >{{ initial }}</span
+            >
+            </template>
+
+            <table v-if="scoreHistory.length > 0">
+              <thead>
+                <tr>
+                  <th>
+                    PLAYER
+                  </th>
+                  <th>
+                    SCORE
+                  </th>
+                  <th>
+                    DATE
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(score, ix) in scoreHistoryComputed" :key="`${ix}_score`">
+                  <th>
+                    {{score.player}}
+                  </th>
+                  <th>
+                    {{score.points}}
+                  </th>
+                  <th>
+                    {{formatDate(score.datetime)}}
+                  </th>
+                </tr>
+              </thead>
+            </table>
           </div>
           <div v-else>
             <div class="timer-bar" v-trim>
